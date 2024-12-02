@@ -10,7 +10,7 @@ var input = int.Parse(Console.ReadLine());
 
 var serviceCollection = new ServiceCollection();
 serviceCollection.AddTransient<Day1>(provider => new Day1("day1Input.txt"));
-//serviceCollection.AddTransient<Day2>(provider => new Day2("day2Input.txt"));
+serviceCollection.AddTransient<Day2>(provider => new Day2("day2Input.txt"));
 
 var serviceProvider = serviceCollection.BuildServiceProvider();
 
@@ -20,6 +20,11 @@ switch (input)
 		var day1 = serviceProvider.GetRequiredService<Day1>();
 		Console.WriteLine(day1.RunFirst());
 		Console.WriteLine(day1.RunSecond());
+		break;
+	case 2:
+		var day2 = serviceProvider.GetRequiredService<Day2>();
+		Console.WriteLine(day2.RunFirst());
+		Console.WriteLine(day2.RunSecond());
 		break;
 	default:
 		break;

@@ -13,7 +13,7 @@ public class Day1 : IDay
     {
         if(inputName == "" || inputName == null)
         {
-            throw new ArgumentNullException(nameof(inputName));
+            throw new ArgumentNullException("inputName");
         }
 
         _inputName = inputName;
