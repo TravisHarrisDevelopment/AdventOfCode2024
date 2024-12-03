@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace _2024AdventOfCode
@@ -34,8 +35,12 @@ namespace _2024AdventOfCode
         {
             foreach (var instr in CorrputedInstructions)
             {
-                ExtractValidInstructions(instr);
+                ExtractUsingRegex(instr);
             }
+            //foreach (var instr in CorrputedInstructions)
+            //{
+            //    ExtractValidInstructions(instr);
+            //}
             
             long sum = 0;
             foreach (var mul in ValidInstructions)
@@ -43,6 +48,21 @@ namespace _2024AdventOfCode
                 sum += mul.Product;
             }
             return $"Result = {sum}.";
+        }
+
+        public void ExtractUsingRegex(string instruction)
+        {
+            var regex = @"mul\(\d{1,3},\d{1,3}\)";
+            Regex rg = new Regex(regex);
+            MatchCollection matches = rg.Matches(instruction);
+            foreach(var match in matches)
+            {
+                var text = match.ToString();
+                int commaIndex = text.IndexOf(',');
+                int num1 = int.Parse(text.Substring(4, commaIndex-4));
+                int num2 = int.Parse(text.Substring(text.IndexOf(',') + 1, (text.Length - 1)-(commaIndex+1)));
+                ValidInstructions.Add(new Mul(num1, num2));
+            }
         }
 
         private void ExtractValidInstructions(string instruction)

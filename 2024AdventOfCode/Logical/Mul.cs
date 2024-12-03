@@ -10,7 +10,7 @@ namespace _2024AdventOfCode.Logical
     {
         public int Operand1 { get; set; }
         public int Operand2 { get; set; }
-        public int Product { get; set; }
+        public long Product { get; set; }
 
         public Mul(int operandOne, int operandTwo)
         {
@@ -21,7 +21,7 @@ namespace _2024AdventOfCode.Logical
 
         public override string ToString()
         {
-            return $"Mul({Operand1},{Operand2})";
+            return $"mul({Operand1},{Operand2})";
         }
     }
 }

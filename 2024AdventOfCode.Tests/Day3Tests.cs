@@ -23,7 +23,8 @@ namespace _2024AdventOfCode.Tests
         }
 
         [Theory]
-        [InlineData("Day3TestInput.txt", "Result = 261.")]
+        //[InlineData("Day3TestInput.txt", "Result = 261.")]
+        [InlineData("alternate3.txt", "Result = 5706334.")]
         public void Day3RunFirstReturnsExpectedResult(string input, string expected)
         {
             //Arrange
@@ -35,5 +36,7 @@ namespace _2024AdventOfCode.Tests
             //Assert
             Assert.Equal(expected, actual);
         }
+
+
     }
 }
