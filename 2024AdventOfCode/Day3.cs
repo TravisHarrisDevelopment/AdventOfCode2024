@@ -14,8 +14,10 @@ namespace _2024AdventOfCode
     {
         private readonly string _input;
 
-        public List<string> CorrputedInstructions { get; set; }
+        public string CorruptedInstructions { get; set; }
         public List<Mul> ValidInstructions { get; set; } = new List<Mul>();
+        public List<string> SelectRawInstructions { get; set; } = new List<string>();
+        public List<Mul> SelectValidInstructions { get; set; } = new List<Mul>();
 
         public Day3(string input) {
             if (input == null)
@@ -25,7 +27,13 @@ namespace _2024AdventOfCode
 
             _input = input;
 
-            CorrputedInstructions = InputHelper.GetInput(_input).ToList();
+            var inputArray = InputHelper.GetInput(_input);
+            StringBuilder assemble = new StringBuilder();
+            foreach(string s in inputArray)
+            {
+                assemble.Append(s);
+            }
+            CorruptedInstructions = assemble.ToString();
         }
         //input example:  xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))
         //is actually:  mul(2,4) mul(5,5) mul(11,8) mul(8,5)
@@ -33,14 +41,7 @@ namespace _2024AdventOfCode
         //                             012345678901  
         public string RunFirst()
         {
-            foreach (var instr in CorrputedInstructions)
-            {
-                ExtractUsingRegex(instr);
-            }
-            //foreach (var instr in CorrputedInstructions)
-            //{
-            //    ExtractValidInstructions(instr);
-            //}
+            ExtractUsingRegex(CorruptedInstructions);
             
             long sum = 0;
             foreach (var mul in ValidInstructions)
@@ -65,6 +66,21 @@ namespace _2024AdventOfCode
             }
         }
 
+        public void ExtractUsingRegex2(string instruction, int v)
+        {
+            var regex = @"mul\(\d{1,3},\d{1,3}\)";
+            Regex rg = new Regex(regex);
+            MatchCollection matches = rg.Matches(instruction);
+            foreach (var match in matches)
+            {
+                var text = match.ToString();
+                int commaIndex = text.IndexOf(',');
+                int num1 = int.Parse(text.Substring(4, commaIndex - 4));
+                int num2 = int.Parse(text.Substring(text.IndexOf(',') + 1, (text.Length - 1) - (commaIndex + 1)));
+                SelectValidInstructions.Add(new Mul(num1, num2));
+            }
+        }
+        //I was really attached to this mess of a method but there was some edge case it was missing.
         private void ExtractValidInstructions(string instruction)
         {
             if (instruction.Contains(',') && instruction.Contains(')') && instruction.Contains("mul("))
@@ -104,7 +120,45 @@ namespace _2024AdventOfCode
 
         public string RunSecond()
         {
-            throw new NotImplementedException();
+            BreakApartInput(CorruptedInstructions);
+
+            foreach(var section in SelectRawInstructions)
+            {
+                ExtractUsingRegex2(section, 2);
+            }
+
+            long sum = 0;
+            foreach (var mul in SelectValidInstructions)
+            {
+                sum += mul.Product;
+            }
+            return $"Result = {sum}.";
+        }
+
+        private void BreakApartInput(string instructions)
+        {
+            int start = 0;
+            int dont = instructions.IndexOf("don't()") + 6;
+            SelectRawInstructions.Add(instructions.Substring(start, dont));
+            instructions= instructions.Substring(dont);
+            while (instructions.Contains("do()"))
+            {
+                start = instructions.IndexOf("do()") + 3;
+                if (start != -1 && instructions.Contains("don't()"))
+                {
+                    dont = instructions.IndexOf("don't", start) + 6;
+                    if (dont < 6)
+                    {
+                        dont = instructions.Length;
+                    }
+                }
+                else
+                {
+                    dont = instructions.Length;
+                }
+                SelectRawInstructions.Add(instructions.Substring(start, dont - start));
+                instructions= instructions.Substring(dont);
+            }
         }
     }
 }

@@ -31,7 +31,7 @@ switch (input)
 	case 3:
 		var day3 = serviceProvider.GetRequiredService<Day3>();
 		Console.WriteLine(day3.RunFirst());
-		//Console.WriteLine(day3.RunSecond());
+		Console.WriteLine(day3.RunSecond());
 		break;
 	default:
 		break;
