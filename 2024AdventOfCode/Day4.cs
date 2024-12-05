@@ -35,6 +35,17 @@ namespace _2024AdventOfCode
             int verticalCountDown = CheckVertical("XMAS");
             int verticalCountUp = CheckVertical("SAMX");
             //check diagonal (up , down for both 'XMAS' and 'SAMX'
+            return "stub";
+        }
+
+        private int CheckVertical(string v)
+        {
+            throw new NotImplementedException();
+        }
+
+        private int CheckHorizontal(string v)
+        {
+            throw new NotImplementedException();
         }
 
         public string RunSecond()
