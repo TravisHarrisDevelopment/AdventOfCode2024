@@ -25,13 +25,27 @@ namespace _2024AdventOfCode.Tests
 
         [Theory]
         [InlineData ("day5TestInput.txt", "Sum of middle page numbers is 143.")]
-        public void Day5RunFirstResturnsExpectedResult(string input, string expected)
+        public void Day5RunFirstReturnsExpectedResult(string input, string expected)
         {
             //Arrange
             var sut = new Day5(input);
 
             //Act
             var actual = sut.RunFirst();
+
+            //Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData("day5TestInput.txt", "Sum of middle page numbers is 123.")]
+        public void Day5RunSecondReturnsExpectedResult(string input, string expected)
+        {
+            //Arrange
+            var sut = new Day5(input);
+
+            //Act
+            var actual = sut.RunSecond();
 
             //Assert
             Assert.Equal(expected, actual);

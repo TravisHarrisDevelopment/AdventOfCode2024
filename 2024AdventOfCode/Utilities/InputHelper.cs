@@ -11,8 +11,9 @@ namespace _2024AdventOfCode.Utilities
     {
         internal static string[] GetInput(string fileName)
         {
+            //return File.ReadAllLines("C:\\personalRepos\\AdventOfCode2024\\2024AdventOfCode\\RawInput\\" + fileName);
             return File.ReadAllLines("C:\\Users\\travi\\source\\repos\\2024AdventOfCode\\2024AdventOfCode\\RawInput\\" + fileName);
         }
-        
+
     }
 }
